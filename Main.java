@@ -1,47 +1,35 @@
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketAddress;
 import java.util.Scanner;
 
-public class Main{
+public class Main {
 
-  public static void reservarPort(int myPort, SocketAddress ip){ 
-    try { 
-      ServerSocket server = new ServerSocket(myPort); 
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    Servere server = new Servere();
+    Cliente cliente = new Cliente();
 
-      System.out.println("Esperando conexao" + server.getLocalPort()); 
-      Socket client = server.accept(); 
+    // Configuração da porta do servidor
+    System.out.print("Digite a porta do servidor\n> ");
+    server.port = sc.nextInt();
+    Thread taskServer = new Thread(server); 
 
-      System.out.println("Porta reservada com sucesso"); 
-      
-      System.out.println("Conectada a " + client.getInetAddress().getHostAddress()+" na porta" + client.getPort()); 
-      client.connect(ip); 
-      System.out.println("Conexão sendo fechada");
-      server.close();
-      System.out.println("Porta fechada com sucesso.");
-      } catch (IOException e) { 
-      System.err.println("Houve um erro ao tentar separar a porta 8888, favor verificar as portas da maquina."); 
-      } catch (Exception er) { 
-      System.err.println("Houve algun erro inesperado, favor verificar."); 
-      } 
+    // Configuração do cliente
+    System.out.print("Digite o IP do destinatario\n> ");
+    cliente.ip = sc.next();
+    System.out.print("Digite a porta do destinatario\n> ");
+    cliente.port = sc.nextInt();
+    Thread taskClient = new Thread(cliente);
+
+    // Inicializa o servidor primeiro
+    taskServer.start();
+
+    // Dá um pequeno delay antes de iniciar o cliente para garantir que o servidor esteja pronto
+    try {
+        Thread.sleep(1000);  // Aguardar 1 segundo para garantir que o servidor esteja pronto
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+
+    // Agora, inicia o cliente
+    taskClient.start();
   }
-
-  public static void inputUser() { 
-    Scanner sc = new Scanner(System.in); 
-    System.out.print("\nInsira a porta que deseja reservar para sua maquina\n>");
-    int myPort = sc.nextInt(); 
-    System.out.print("Insira o IP que deseja conectar.\n>"); 
-    String msgIp = sc.next(); 
-    System.out.print("Insira a porta do IP que deseja conectar.\n>"); 
-    Integer msgPort = sc.nextInt(); 
-    sc.close(); 
-    SocketAddress ip = new InetSocketAddress (msgIp, msgPort);
-    reservarPort(myPort, ip); 
-  }
-
-  public static void main(String[] args) { 
-    inputUser(); 
-  } 
 }
