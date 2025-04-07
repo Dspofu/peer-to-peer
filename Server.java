@@ -21,7 +21,6 @@ public class Server implements Runnable {
 
           in = new BufferedReader(new InputStreamReader(client.getInputStream()));
           out = new PrintWriter(client.getOutputStream(), true);
-
           String message;
           while ((message = in.readLine()) != null) {
             String username = "<desconhecido>";
