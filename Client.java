@@ -35,11 +35,9 @@ public class Client implements Runnable {
 
         String userMessage;
         while (true) {
-          System.out.print("Escreva sua mensagem: ");
           userMessage = userInput.readLine();
           out.println(userMessage);
-          String serverResponse = in.readLine();
-          System.out.println(serverResponse);
+          in.readLine();
         }
       } catch (IOException e) {
         if (!wait) System.err.println("Falha na conexão, tentando novamente...");
