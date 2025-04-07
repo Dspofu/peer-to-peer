@@ -3,6 +3,7 @@ import java.util.Scanner;
 public class Main {
 
   public static void main(String[] args) {
+    try{
     Scanner scanner = new Scanner(System.in);
     Server server = new Server();
     Client cliente = new Client();
@@ -24,5 +25,8 @@ public class Main {
     } catch (InterruptedException e) { e.printStackTrace(); }
 
     taskClient.start();
+  }catch(Exception e){
+    e.printStackTrace();
   }
+}
 }
