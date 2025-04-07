@@ -52,7 +52,6 @@ public class Client implements Runnable {
       try {
         String userMessage;
         while (true) {
-          // System.out.print("\nEscreva sua mensagem: ");
           userMessage = userInput.readLine();
           out.println(username + ":" + userMessage);
           in.readLine();
